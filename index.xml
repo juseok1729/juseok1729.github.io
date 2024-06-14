@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>P373R&#39;s Blog</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on P373R&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Copy, _right?_ 🤔</copyright>
+    <lastBuildDate>Thu, 13 Jun 2024 17:02:18 +0900</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ec2</title>
+      <link>http://localhost:1313/aws/ec2/</link>
+      <pubDate>Thu, 13 Jun 2024 17:02:18 +0900</pubDate>
+      
+      <guid>http://localhost:1313/aws/ec2/</guid>
+      <description> Hello world # </description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/aws/ec2/featured.png" />
+    </item>
+    
+  </channel>
+</rss>
