@@ -1,0 +1,4 @@
+[submodule "public"]
+	path = public
+	url = git@github.com:juseok1729/juseok1729.github.io.git
+	branch = gh-pages
