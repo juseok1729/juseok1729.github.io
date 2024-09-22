@@ -9,30 +9,12 @@
   weight = 20
 
 [[main]]
-  name = "Devops"
+  name = "Projects"
   weight = 30
 
 [[main]]
-  name = "AWS"
-  parent = "Devops"
-  pageRef = "aws"
-  weight = 10
-
-[[main]]
-  name = "Kubernetes"
-  parent = "Devops"
-  pageRef = "k8s"
-  weight = 20
-
-[[main]]
-  name = "Monitoring"
-  parent = "Devops"
-  pageRef = "monitoring"
-  weight = 30
-
-[[main]]
-  name = "Side"
-  pageRef = "side"
+  name = "Resume"
+  pageRef = "resume"
   weight = 40
 
 [[main]]
