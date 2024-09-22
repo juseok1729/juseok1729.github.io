@@ -1,8 +1,6 @@
 theme = "blowfish"
 baseURL = "https://juseok1729.github.io/"
-
 defaultContentLanguage = "en"
-defaultContentLanguageInSubdir = true
 
 enableRobotsTXT = true
 summaryLength = 30
@@ -24,9 +22,7 @@ googleAnalytics = "G-J9YKERE3W3"
     { github = "https://github.com/juseok1729" },
     { gitlab = "https://gitlab.hamalab.io/juseok" },
     { linkedin = "https://www.linkedin.com/in/p373r-juseok1729" },
-    { reddit = "https://reddit.com/user/p373r-o" },
     { slack = "https://thehamalab.slack.com/team/U04MFJASD8A" },
-    { stack-overflow = "https://stackoverflow.com/users/19567141/juseok-oh" },
     { youtube = "https://youtube.com/ojkk371" },
   ]
 
