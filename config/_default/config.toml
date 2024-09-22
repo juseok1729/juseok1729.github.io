@@ -1,4 +1,5 @@
 theme = "blowfish"
+baseURL = "https://juseok1729.github.io/"
 
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = true
