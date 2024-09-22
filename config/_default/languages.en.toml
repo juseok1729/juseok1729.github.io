@@ -1,7 +1,7 @@
 languageCode = "en"
 languageName = "English"
 weight = 1
-title = "'s blog?"
+title = "Devops Diary"
 
 [params]
   displayName = "English"
@@ -11,4 +11,4 @@ title = "'s blog?"
   logo = "img/logo_inverted.png"
   secondaryLogo = "img/logo.png"
   description = "P373R | Juseok Oh"
-  copyright = "Copy, _right?_ 🤔"
+  # copyright = "Copy, _right?_ 🤔"

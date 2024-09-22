@@ -9,7 +9,7 @@ mainSections = ["posts"]
 # robots = ""
 
 disableImageOptimization = true
-disableTextInHeader = false
+disableTextInHeader = true
 
 # defaultFeaturedImage = "IMAGE.jpg" # used as default for featured images in all articles
 defaultBackgroundImage = "img/background_sea.jpg" # used as default for background images
@@ -68,7 +68,7 @@ smartTOCHideUnfocusedChildren = false
   showTaxonomies = true
   showAuthorsBadges = true
   showWordCount = false
-  sharingLinks = [ "linkedin", "reddit", "pinterest", "facebook", "email"]
+  sharingLinks = [ "linkedin", "reddit", "facebook", "email"]
   showZenMode = true
 
 [list]
@@ -95,21 +95,21 @@ smartTOCHideUnfocusedChildren = false
   showHero = true
   heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
   showBreadcrumbs = false
-  showViews = true
-  showLikes = true
+  showViews = false
+  showLikes = false
   showTableOfContents = true
-  cardView = true
+  cardView = false
 
 [term]
   showHero = true
   heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
-  showBreadcrumbs = false
-  showViews = true
-  showLikes = true
+  showBreadcrumbs = true
+  showViews = false
+  showLikes = false
   showTableOfContents = true
   groupByYear = false
   cardViewScreenWidth = false
-  cardView = false
+  cardView = true
 
 [buymeacoffee]
   identifier = "p373r"

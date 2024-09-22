@@ -13,7 +13,7 @@ enableEmoji = true
 googleAnalytics = "G-J9YKERE3W3"
 
 [params.author]
-  name = "P373R"
+  name = "Juseok Oh"
   image = "img/profile.png"
   headline = "DevOps Engineer @ Hamalab"
   bio = "DevOps Engineer @ Hamalab"
