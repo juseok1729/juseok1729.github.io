@@ -5,14 +5,14 @@ autoSwitchAppearance = false
 enableSearch = true
 enableCodeCopy = true
 
-mainSections = ["posts", "aws", "k8s", "monitoring"]
+mainSections = ["posts"]
 # robots = ""
 
 disableImageOptimization = true
 disableTextInHeader = false
 
-defaultBackgroundImage = "img/background_sea.jpg" # used as default for background images
 # defaultFeaturedImage = "IMAGE.jpg" # used as default for featured images in all articles
+defaultBackgroundImage = "img/background_sea.jpg" # used as default for background images
 
 highlightCurrentMenuArea = true
 smartTOC = true
@@ -34,7 +34,7 @@ smartTOCHideUnfocusedChildren = false
   showRecent = true
   showRecentItems = 12
   showMoreLink = true
-  showMoreLinkDest = "posts"
+  showMoreLinkDest = "/posts"
   cardView = true
   cardViewScreenWidth = false
   layoutBackgroundBlur = true # only used when layout equals background
@@ -73,16 +73,16 @@ smartTOCHideUnfocusedChildren = false
 
 [list]
   showHero = true
-  heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
-  layoutBackgroundBlur = true # only used when heroStyle equals background or thumbAndBackground
-  layoutBackgroundHeaderSpace = false # only used when heroStyle equals background
+  heroStyle = "background"
+  layoutBackgroundBlur = true
+  layoutBackgroundHeaderSpace = false
   showBreadcrumbs = false
+  showViews = false
+  showLikes = false
   showSummary = false
-  showViews = true
-  showLikes = true
   showTableOfContents = false
   showCards = true
-  groupByYear = true
+  groupByYear = false
   cardView = true
   cardViewScreenWidth = false
   constrainItemsWidth = false
@@ -104,12 +104,12 @@ smartTOCHideUnfocusedChildren = false
   showHero = true
   heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
   showBreadcrumbs = false
-  showViews = false
-  showLikes = false
+  showViews = true
+  showLikes = true
   showTableOfContents = true
   groupByYear = false
-  cardView = true
   cardViewScreenWidth = false
+  cardView = false
 
 [buymeacoffee]
   identifier = "p373r"
