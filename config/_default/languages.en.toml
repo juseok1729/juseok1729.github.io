@@ -1,0 +1,14 @@
+languageCode = "en"
+languageName = "English"
+weight = 1
+title = "'s blog?"
+
+[params]
+  displayName = "English"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2006-01-02"
+  logo = "img/logo_inverted.png"
+  secondaryLogo = "img/logo.png"
+  description = "P373R | Juseok Oh"
+  copyright = "Copy, _right?_ 🤔"

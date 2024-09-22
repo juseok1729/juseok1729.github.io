@@ -1,0 +1,51 @@
+[[main]]
+  name = "Career"
+  pageRef = "career"
+  weight = 10
+
+[[main]]
+  name = "Posts"
+  pageRef = "posts"
+  weight = 20
+
+[[main]]
+  name = "Devops"
+  weight = 30
+
+[[main]]
+  name = "AWS"
+  parent = "Devops"
+  pageRef = "aws"
+  weight = 10
+
+[[main]]
+  name = "Kubernetes"
+  parent = "Devops"
+  pageRef = "k8s"
+  weight = 20
+
+[[main]]
+  name = "Monitoring"
+  parent = "Devops"
+  pageRef = "monitoring"
+  weight = 30
+
+[[main]]
+  name = "Side"
+  pageRef = "side"
+  weight = 40
+
+[[main]]
+  pre = "github"
+  url = "https://github.com/juseok1729"
+  weight = 50
+
+[[footer]]
+  name = "Tags"
+  pageRef = "tags"
+  weight = 10
+
+[[footer]]
+  name = "Categories"
+  pageRef = "categories"
+  weight = 20

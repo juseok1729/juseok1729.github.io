@@ -1,0 +1,80 @@
+theme = "blowfish"
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = true
+
+enableRobotsTXT = true
+summaryLength = 30
+
+buildDrafts = false
+buildFuture = false
+
+enableEmoji = true
+
+googleAnalytics = "G-J9YKERE3W3"
+
+[params.author]
+  name = "P373R"
+  image = "img/profile.png"
+  headline = "DevOps Engineer @ Hamalab"
+  bio = "DevOps Engineer @ Hamalab"
+  links = [
+    { email = "mailto:ojkk371@gmail.com" },
+    { github = "https://github.com/juseok1729" },
+    { gitlab = "https://gitlab.hamalab.io/juseok" },
+    { linkedin = "https://www.linkedin.com/in/p373r-juseok1729" },
+    { reddit = "https://reddit.com/user/p373r-o" },
+    { slack = "https://thehamalab.slack.com/team/U04MFJASD8A" },
+    { stack-overflow = "https://stackoverflow.com/users/19567141/juseok-oh" },
+    { youtube = "https://youtube.com/ojkk371" },
+  ]
+
+[pagination]
+  pagerSize = 18
+
+[imaging]
+  anchor = 'Center'
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  series = "series"
+
+[sitemap]
+  changefreq = 'daily'
+  filename = 'sitemap.xml'
+  priority = 0.5
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[related]
+  threshold = 1
+  includeNewer = true
+  toLower = true
+
+[[related.indices]]
+  name = "tags"
+  weight = 100
+
+[[related.indices]]
+  name = "categories"
+  weight = 100
+
+[[related.indices]]
+  name = "series"
+  weight = 50
+
+[[related.indices]]
+  name = "authors"
+  weight = 10
+
+[[related.indices]]
+  name = "date"
+  weight = 0
+
+[[related.indices]]
+  applyFilter = true
+  name = 'fragmentrefs'
+  type = 'fragments'
+  weight = 10
