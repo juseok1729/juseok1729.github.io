@@ -1,9 +1,9 @@
 ---
-title: "Concept"
-date: 2024-09-21T22:47:26+09:00
+title: "TEST"
+date: 2024-09-22T19:17:28+09:00
 draft: true
 categories: [cat1, cat2]
-tags: [Tag1, Tag2]
+tags: [tag1, tag2]
 description: ""
 authors:
   - P373R
