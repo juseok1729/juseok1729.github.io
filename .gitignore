@@ -10,3 +10,6 @@ hugo_stats.json
 # Go
 go.mod
 go.sum
+
+# Mac
+.DS_Store
