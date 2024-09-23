@@ -12,7 +12,7 @@ disableImageOptimization = true
 disableTextInHeader = true
 
 # defaultFeaturedImage = "IMAGE.jpg" # used as default for featured images in all articles
-defaultBackgroundImage = "img/background_sea.jpg" # used as default for background images
+defaultBackgroundImage = "img/bg_ocean.jpg" # used as default for background images
 
 highlightCurrentMenuArea = true
 smartTOC = true
