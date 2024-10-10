@@ -1,5 +1,5 @@
 ---
-title: "Gitlab에 Sonarqube 연동하기"
+title: "Gitlab에 SonarQube 연동하기"
 date: 2024-10-10T18:37:33+09:00
 draft: false
 categories: [guide]
