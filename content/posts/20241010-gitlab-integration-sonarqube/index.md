@@ -1,7 +1,7 @@
 ---
 title: "Gitlab에 SonarQube 연동하기"
 date: 2024-10-10T18:37:33+09:00
-draft: false
+draft: true
 categories: [guide]
 tags: [gitlab, sonarqube, integration, SAST]
 description: ""
@@ -139,7 +139,8 @@ docker run -dit --name sonarqube \
 ```
 
 ### 3. 프로젝트 연결 및 토큰 발급
-(내용추가 필요)
+![create-project](./import-gitlab.png)
+![]()
 
 
 ### 4. Docker Compose
@@ -174,7 +175,7 @@ services:
     image: postgres:15
     container_name: sonarqube_postgres
     environment:
-      POSTGRES_PASSWORD: thishama123
+      POSTGRES_PASSWORD: mypassword
       TZ: Asia/Seoul
     ports:
       - 5432:5432
