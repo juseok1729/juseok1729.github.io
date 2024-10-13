@@ -97,7 +97,6 @@ docker compose up -d
 [ERROR]: max virtual memory areas vm.max_map_count ...
 {{< /alert >}}  
 
-# 
 {{< alert icon="circle-info" cardColor="#EFFBFB" iconColor="#1d3557" textColor="#000000" >}}
 위 에러는 elasticsearch 와 같은 데이터베이스 애플리케이션에서 많이 발생하는 문제이다.  
 이유는, SonarQube는 내부적으로 elasticsearch를 사용해서 검색과 인덱싱 기능을 제공하는데, 이때 elasticsearch에서 데이터를 빠르고 효율적으로 처리하기 위해서 메모리에 직접 매핑해서 처리하는 방법을 사용한다. 이 과정에서 최대 메모리 매핑 갯수(vm.max_map_count)의 제한을 받는데, 최소 요구 개수(262144)가 이 제한을 초과할때 발생한다.  
@@ -108,7 +107,6 @@ docker compose up -d
 ```bash
 sysctl -w vm.max_map_count=262144
 ```
-
 
 ### 3. 프로젝트 연결 및 토큰 발급
 구성한 SonarQube 페이지([http://localhost:9000](http://localhost:9000))에 접속하면 계정/패스워드를 요구하는데,  
