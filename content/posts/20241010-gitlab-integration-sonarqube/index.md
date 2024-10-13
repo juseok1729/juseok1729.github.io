@@ -142,10 +142,11 @@ Figure 8. 위 이미지와 같이 기본 지침을 확인할 수 있습니다.
 
 아래에서 **[Figure 8]** 의 지침을 자세하게 설명하겠습니다.  
 ### 1. GitLab CI/CD Variables 추가
-- `SONAR_HOST_URL` : SonarQube의 HOST URL 을 입력합니다.  
-  (ex, `http://localhost:9000`)
-- `SONAR_TOKEN` : SonarQube에서 발급한 프로젝트 토큰 또는 글로벌 토큰을 입력합니다.  
-  (ex, `sqa_bfa98a...`)
+
+|Key|Value|Example|
+|------|---|---|
+|`SONAR_HOST_URL`|SonarQube의 HOST URL|http://localhost:9000|
+|`SONAR_TOKEN`|SonarQube에서 발급한 프로젝트 토큰 또는 글로벌 토큰|sqa_bfa98ac2hT89...|
 
 ### 2. build.gradle 수정 (java)
 아래 구문을 추가합니다. (**Figure 8** 의 지침에 출력된 코드블럭입니다.)
