@@ -92,18 +92,19 @@ EOF
 docker compose up -d
 ```
 ### 2. 트러블 슈팅
+컨테이너 실행시 아래 에러가 발생하면서 컨테이너의 비정상적 종료가 발생할 수 있다.  
 {{< alert icon="fire" cardColor="#e63946" iconColor="#1d3557" textColor="#f1faee" >}}
 [ERROR]: max virtual memory areas vm.max_map_count ...
 {{< /alert >}}  
 
 # 
 {{< alert icon="circle-info" cardColor="#EFFBFB" iconColor="#1d3557" textColor="#000000" >}}
-위 에러는 보통 elasticsearch 쪽에서 많이 발생한다.  
-이유는, SonarQube는 내부적으로 elasticsearch를 사용해서 검색과 인덱싱 기능을 제공하는데, 이때 elasticsearch에서 데이터를 빠르고 효율적으로 처리하기 위해서 메모리에 직접 매핑해서 처리하는 방법을 사용한다. 이 과정에서 최대 메모리 매핑 갯수(vm.max_map_count)의 제한을 받는데, 최소 요구 개수(262144)가 이 제한을 초과할때 발생하는 에러이다.  
+위 에러는 elasticsearch 와 같은 데이터베이스 애플리케이션에서 많이 발생하는 문제이다.  
+이유는, SonarQube는 내부적으로 elasticsearch를 사용해서 검색과 인덱싱 기능을 제공하는데, 이때 elasticsearch에서 데이터를 빠르고 효율적으로 처리하기 위해서 메모리에 직접 매핑해서 처리하는 방법을 사용한다. 이 과정에서 최대 메모리 매핑 갯수(vm.max_map_count)의 제한을 받는데, 최소 요구 개수(262144)가 이 제한을 초과할때 발생한다.  
 {{< /alert >}}
 
-컨테이너 실행시 발생하는 해당 에러는 호스트에서 아래 커맨드로 메모리 매핑수를 늘려 해결할 수 있다.  
-(리눅스 시스템 기본 설정값은 `6553x` 이다.)  
+해당 에러는 호스트에서 아래 커맨드로 메모리 매핑수를 직접 늘려 해결할 수 있습니다.  
+(리눅스 시스템 기본 설정값은 `6553x`)  
 ```bash
 sysctl -w vm.max_map_count=262144
 ```
@@ -111,7 +112,7 @@ sysctl -w vm.max_map_count=262144
 
 ### 3. 프로젝트 연결 및 토큰 발급
 구성한 SonarQube 페이지([http://localhost:9000](http://localhost:9000))에 접속하면 계정/패스워드를 요구하는데,  
-기본 계정은 admin/admin 입니다.
+기본 계정은 아이디와 패스워드는 각각 admin/admin 입니다.
 ![setup-gitlab](./assets/setup-gitlab.png "Figure 1")
 Figure 1. 계정설정을 완료하면 첫 화면이 위 이미지인데, GitLab 과 연동할것이기 때문에 **Import from GitLab** 의 **[Setup]** 을 클릭합니다.
 
