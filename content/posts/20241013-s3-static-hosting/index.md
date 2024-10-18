@@ -32,8 +32,13 @@ S3에 파일을 저장하면 파일(객체) 단위로 URL이 생성됩니다.
 ![config-static](./assets/configure-static.png)
 
 ## 3. Route53 - 도메인 준비
-외부 도메인 등록사이트(GoDaddy, NameCheap, Cafe24, Gabia 등등) 에서 도메인을 구매하고 네임서버를 AWS 로 옮기든, AWS 에서 도메인을 구입하든 도메인이 필요합니다.  
-이후, Route53 에 도메인과 같은 이름의 **호스팅 영역(Hosted Zone)** 을 생성합니다.  
+도메인을 소유해야합니다. 도메인을 소유하고 있지 않다면 구매해야합니다.  
+도메인은 외부 도메인 등록사이트([GoDaddy](https://godaddy.com/), [NameCheap](https://namecheap.com/), [Cafe24](https://cafe24.com/), [Gabia](https://www.gabia.com/)) 또는 AWS의 Route53 에서 구매할 수 있습니다.  
+AWS의 Route53 에서 구매했다면, 도메인과 같은 이름의 **호스팅 영역(Hosted Zone)** 을 생성합니다.  
+
+{{< alert icon="triangle-exclamation" cardColor="#F5F6CE" iconColor="#1d3557" textColor="#000000" >}}
+도메인을 AWS가 아닌 외부 도메인 등록사이트에서 구매했다면 도메인 네임서버(DNS)를 Route53에서 생성한 호스팅 영역에 생성된 네임서버(NS)로 수정하는 작업이 필요하다.  
+{{< /alert >}}  
 
 ## 4. ACM - 인증서 발급
 3번 과정이 완료되었다면 간단합니다.  
