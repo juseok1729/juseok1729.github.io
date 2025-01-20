@@ -1,7 +1,7 @@
 ---
 title: "셰프나이프 : 강재"
 date: 2024-10-21T10:05:11+09:00
-draft: true
+draft: false
 categories: [hobby]
 tags: [knife, gemstone, cook]
 description: ""
