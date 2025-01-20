@@ -116,4 +116,4 @@ smartTOCHideUnfocusedChildren = false
   globalWidget = true
   globalWidgetMessage = ""
   globalWidgetColor = "#FFDD00"
-  globalWidgetPosition = "Right"
+  globalWidgetPosition = "right"

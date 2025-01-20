@@ -9,19 +9,34 @@
   weight = 20
 
 [[main]]
+  name = "hobby"
+  pageRef = "hobby"
+  weight = 30
+
+[[main]]
   name = "Projects"
   pageRef = "projects"
-  weight = 30
+  weight = 40
 
 [[main]]
   name = "Resume"
   pageRef = "resume"
-  weight = 40
+  weight = 50
+
+[[main]]
+  name = "Study"
+  pageRef = "study"
+  weight = 55
+
+[[main]]
+  name = "Hobby"
+  pageRef = "hobby"
+  weight = 60
 
 [[main]]
   pre = "github"
   url = "https://github.com/juseok1729"
-  weight = 50
+  weight = 65
 
 [[footer]]
   name = "Tags"
