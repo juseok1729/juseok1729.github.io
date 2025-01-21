@@ -95,3 +95,121 @@ spec:
           path: /
           port: 3000
 ```
+
+## 4. Probe 방식
+Probe 방식은 총 4가지이다.  
+
+### 4-1. httpGet
+HTTP GET 요청으로 컨테이너 상태를 체크한다.  
+지정된 Path 로 HTTP GET 요청을 보내고 리턴되는 HTTP 응답코드가 200~3xx 라면 정상으로 판단한다.  
+- `path` : HTTP에 액세스할 경로, 기본값은 `/`
+- `host` : 연결할 호스트이름, 기본값은 Pod 의 IP
+- `port` : 컨테이너에서 액세스할 포트의 번호, 포트 범위는 1~65535
+- `httpHeaders` : 리퀘스트 사용자 정의 헤더
+- `scheme` : 호스트에 연결할때 사용할 스키마 타입(HTTP/HTTPS), 기본값은 HTTP
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/e2e-test-images/agnhost:2.40
+    args:
+    - liveness
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        httpHeaders:
+        - name: Custom-Header
+          value: Awesome
+      initialDelaySeconds: 3
+      periodSeconds: 3
+```
+
+### 4-2. exec
+- `command` : 상태 진단(Probe)을 쉘 명령으로 수행하고 결과에 따라 정상 여부를 체크한다.  
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -f /tmp/healthy; sleep 600
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+```
+
+### 4-3. tcpSocket
+TCP Probe 는 Pod가 아니라 Node에서 Probe 연결을 구성한다. 
+- `port` : 컨테이너에서 액세스할 포트의 번호, 포트 범위는 1~65535
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+  - name: goproxy
+    image: registry.k8s.io/goproxy:0.1
+    ports:
+    - containerPort: 8080
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 10
+```
+
+### 4-4. grpc
+- `port` : 컨테이너에서 액세스할 포트의 번호, 포트 범위는 1~65535
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: etcd-with-grpc
+spec:
+  containers:
+  - name: etcd
+    image: registry.k8s.io/etcd:3.5.1-0
+    command: [ "/usr/local/bin/etcd", "--data-dir",  "/var/lib/etcd", "--listen-client-urls", "http://0.0.0.0:2379", "--advertise-client-urls", "http://127.0.0.1:2379", "--log-level", "debug"]
+    ports:
+    - containerPort: 2379
+    livenessProbe:
+      grpc:
+        port: 2379
+      initialDelaySeconds: 10
+
+```
+
+## 5. Probe 설정
+- `initialDelaySeconds` : 컨테이너가 시작된 후 Probe가 시작되기 전 기다리는 시간
+- `periodSeconds` : Probe를 수행하는 빈도(주기)
+- `timeoutSeconds` : Probe가 시간초과로 간주되기까지의 시간
+- `successThreshold` : Probe가 성공으로 간주되기 위해 연속적으로 성공해야하는 최소 횟수
+- `failureThreshold` : kubernetes가 실패했다고 판단하는 Probe 연속 실패 횟수 
+- `terminationGracePeriodSeconds` : kubelet이 실패한 컨테이너의 중지를 트리거하고, 컨테이너 런타임을 강제로 중지시키기 전에 대기하는 유예 시간
