@@ -29,6 +29,7 @@
   weight = 60
 
 [[main]]
+  name = ""
   pre = "github"
   url = "https://github.com/juseok1729"
   weight = 65
