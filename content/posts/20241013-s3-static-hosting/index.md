@@ -3,7 +3,7 @@ title: "[AWS] S3 정적 웹 호스팅하기"
 date: 2024-10-13T21:47:39+09:00
 draft: true
 categories: [guide]
-tags: [aws, s3, static-hosting, acm, route53, cloudfront]
+tags: [AWS, S3, Static-Hosting, ACM, Route53, CloudFront]
 description: ""
 slug: ""
 series: []

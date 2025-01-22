@@ -3,7 +3,7 @@ title: "[AWS] EC2 볼륨 증설하기"
 date: 2024-10-12T10:54:52+09:00
 draft: false
 categories: [guide]
-tags: [aws, ec2, ebs, upscale]
+tags: [AWS, EC2, EBS, upscale]
 description: ""
 slug: ""
 series: []

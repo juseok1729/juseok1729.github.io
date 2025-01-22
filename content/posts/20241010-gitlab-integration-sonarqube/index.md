@@ -3,7 +3,7 @@ title: "[SonarQube] 설치 및 GitLab과의 연동 방법"
 date: 2024-10-10T18:37:33+09:00
 draft: false
 categories: [guide]
-tags: [gitlab, sonarqube, integration, SAST]
+tags: [Gitlab, SonarQube, Integration, SAST]
 description: ""
 slug: ""
 series: ["SonarQube"]

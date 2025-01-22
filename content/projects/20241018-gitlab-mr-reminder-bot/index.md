@@ -1,12 +1,12 @@
 ---
-title: "[Gitlab x Slack] MR 리마인더 봇"
+title: "MR 리마인더 봇"
 date: 2024-10-18T14:10:34+09:00
 draft: false
 categories: [project]
-tags: [gitlab, slack, bot]
+tags: [Gitlab, Slack, Bot]
 description: ""
 slug: ""
-series: []
+series: [Gitlab x Slack]
 series_order: 1
 authors:
   - P373R

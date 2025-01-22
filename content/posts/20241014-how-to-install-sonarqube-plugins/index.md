@@ -3,7 +3,7 @@ title: "[SonarQube] 외부 플러그인 설치 방법"
 date: 2024-10-14T10:24:57+09:00
 draft: false
 categories: [guide]
-tags: [extensions, plugins, sonarqube]
+tags: [SonarQube]
 description: ""
 slug: ""
 series: ["SonarQube"]
