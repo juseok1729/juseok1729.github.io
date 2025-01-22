@@ -3,7 +3,7 @@ title: "셰프나이프 : 강재"
 date: 2024-10-21T10:05:11+09:00
 draft: false
 categories: [hobby]
-tags: [Knife, Gemstone, Cook]
+tags: [Knife, Material, Cook]
 description: ""
 slug: ""
 series: ["Chef Knife"]
