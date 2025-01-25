@@ -83,17 +83,17 @@ authors:
         </tr>
         <tr>
             <td>BSc, Electrical Engineering</td>
-            <td>2012.03-2019.02</td>
+            <td>2012.03 - 2019.02</td>
         </tr>
          <tr>
             <td>Lab Head</td>
-            <td>2016-2018</td>
+            <td>2016 - 2018</td>
         </tr>
         <tr>
             <td><img class="customEntitityLogo" src="kongju.svg"/></td>
             <td><a href="http://www.kongjugo.cnehs.kr" target="_blank">Kongju High School</a></td>
             <td>Natural Sciences</td>
-            <td>2009.04-2012.02</td>
+            <td>2009.04 - 2012.02</td>
         </tr>
     </tbody>
 </table>
@@ -156,7 +156,7 @@ authors:
         <tr>
             <td><img class="customEntitityLogo" src="ROKCDC.svg"/></td>
             <td><a href="https://www.cmes.or.kr/" target="_blank">Republic Of Korea Civil Defense Corps</a></td>
-            <td>2024-present</td>
+            <td>2024 - present</td>
             <td>Seongnam, KR</td>
         </tr>
         <tr>
