@@ -186,8 +186,8 @@ spec:
 ```
 
 ### 4-4. grpc
-{{< alert icon="circle-info">}}
-**Update** : kubernetes v1.27
+{{< alert icon="circle-info" cardColor="#326CE5" iconColor="white" textColor="white" >}}
+**Update**: kubernetes v1.27
 {{< /alert >}}
 
 - `port` : 컨테이너에서 액세스할 포트의 번호, 포트 범위는 1~65535
