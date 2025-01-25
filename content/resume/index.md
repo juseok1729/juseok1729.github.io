@@ -80,7 +80,7 @@ authors:
     <tbody>
         <tr>
             <td rowspan=3><img class="customEntitityLogo" src="paichai.png"/></td>
-            <td rowspan=3><a href="https://online.hbs.edu/" target="_blank">Paichai University</a></td>
+            <td rowspan=3><a href="https://online.hbs.edu/" target="_blank">Paichai <br>University</a></td>
         </tr>
         <tr>
             <td>BSc, Electrical Engineering</td>
@@ -93,7 +93,7 @@ authors:
         </tr>
         <tr>
             <td><img class="customEntitityLogo" src="kongju.svg"/></td>
-            <td><a href="http://www.kongjugo.cnehs.kr" target="_blank">Kongju High School</a></td>
+            <td><a href="http://www.kongjugo.cnehs.kr" target="_blank">Kongju <br>High School</a></td>
             <td>Natural Sciences</td>
             <td>2009.04 - 2012.02</td>
             <td>Kongju, KR</td>
