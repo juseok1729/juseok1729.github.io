@@ -41,19 +41,18 @@ authors:
         </tr>
         <tr>
             <td>Junior DevOps Engineer</td>
-            <td>2023.01 - Present(2년)</td>
-            <td>Seongnam, KR</td>
+            <td>2023.01 - Present</td>
+            <td rowspan=2>Seongnam, KR</td>
         </tr>
         <tr>
             <td>Junior AI Researcher</td>
-            <td>2022.08 - 2023.01(5개월)</td>
-            <td>Seongnam, KR</td>
+            <td>2022.08 - 2023.01</td>
         </tr>
         <tr>
             <td><img class="customEntitityLogo" src="cresprit.webp"/></td>
-            <td><a href="http://cresprit.com" target="_blank">CRESPRIT</a></td>
+            <td><a href="http://cresprit.com" target="_blank">Cresprit</a></td>
             <td>Junior AI Researcher</td>
-            <td>2020.09 - 2021.11(1년 3개월)</td>
+            <td>2020.09 - 2021.11</td>
             <td>Bundang, KR</td>
         </tr>
     </tbody>
@@ -86,10 +85,8 @@ authors:
             <td>2016-2018</td>
         </tr>
         <tr>
-            <td rowspan=3><img class="customEntitityLogo" src="kongju.svg"/></td>
-            <td rowspan=3><a href="http://www.kongjugo.cnehs.kr" target="_blank">Kongju High School</a></td>
-        </tr>
-        <tr>
+            <td><img class="customEntitityLogo" src="kongju.svg"/></td>
+            <td><a href="http://www.kongjugo.cnehs.kr" target="_blank">Kongju High School</a></td>
             <td>Natural Sciences</td>
             <td>2009.04-2012.02</td>
         </tr>
