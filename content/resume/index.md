@@ -18,6 +18,7 @@ showEdit: false
 showViews: false
 showLikes: false
 layoutBackgroundHeaderSpace: false
+heroStyle: "background"
 authors:
   - P373R
 ---
