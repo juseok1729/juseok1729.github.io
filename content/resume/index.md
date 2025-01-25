@@ -74,6 +74,7 @@ authors:
             <th>Link</th>
             <th>Degree</th>
             <th>Date</th>
+            <th>Location</th>
         </tr>
     </thead>
     <tbody>
@@ -84,6 +85,7 @@ authors:
         <tr>
             <td>BSc, Electrical Engineering</td>
             <td>2012.03 - 2019.02</td>
+            <td rowspan=2>Daejeon</td>
         </tr>
          <tr>
             <td>Lab Head</td>
@@ -94,6 +96,7 @@ authors:
             <td><a href="http://www.kongjugo.cnehs.kr" target="_blank">Kongju High School</a></td>
             <td>Natural Sciences</td>
             <td>2009.04 - 2012.02</td>
+            <td>Kongju</td>
         </tr>
     </tbody>
 </table>
