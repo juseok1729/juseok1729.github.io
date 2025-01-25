@@ -50,7 +50,7 @@ authors:
             <td>Seongnam, KR</td>
         </tr>
         <tr>
-            <td><img class="customEntitityLogo" src="cresprit.png"/></td>
+            <td><img class="customEntitityLogo" src="cresprit.webp"/></td>
             <td><a href="http://cresprit.com" target="_blank">CRESPRIT</a></td>
             <td>Junior AI Researcher</td>
             <td>2020.09 - 2021.11(1년 3개월)</td>
