@@ -17,8 +17,12 @@ sharingLinks : false
 showEdit: false
 showViews: false
 showLikes: false
+showRelatedContent: false
 layoutBackgroundHeaderSpace: false
+showComments: false
+showZenMode: false
 heroStyle: "background"
+showAuthor: false
 authors:
   - P373R
 ---
