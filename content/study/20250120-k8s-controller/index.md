@@ -101,7 +101,7 @@ NAME                     DESIRED   CURRENT   READY   AGE
 replicaset.apps/app-rs   3         3         3       3s
 ```
   
-### 🔑 Key Differences
+### 차이점
 #### 1. Selector
 - ReplicationController: `selector`가 **선택값**이다. 없어도 동작한다.   
 - ReplicaSet: `selector`가 **필수값**이다. 없으면 동작하지 않는다.  
@@ -335,8 +335,28 @@ Kubernetes에서 **StatefulSet**의 컨테이너 스펙 수정은 문제가 안�
 
 ## 6. Job
 
-### 잡 구성 패턴
+**Job** 과 ReplicaSet 의 차이점은 **"기동중인 파드가 정지되는것을 전제로 만들어졌는가이다."**  
+ReplicaSet에서 Pod의 정지는 예상치 못한 에러이다. 반면, **Job에서는 Pod의 정지는 정상 동작이다.**
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cal-pi
+spec:
+  template:
+    spec:
+      containers:
+        - name: cal-pi
+          image: perl
+          command: ["perl", "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      restartPolicy: Never
+  backoffLimit: 4
+```
 
 ```bash
-
+❯ k get job
+NAME   STATUS     COMPLETIONS   DURATION   AGE
+test   Complete   1/1           6s         2m37s
 ```
+
+### 잡 구성 패턴
