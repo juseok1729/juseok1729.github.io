@@ -270,11 +270,12 @@ mongodb-psmpq   1/1     Running   0          96s   10.244.0.78   juseok   <none>
 
 DaemonSet 도 Deployment 와 마찬가지로 배포 전략을 선택할 수 있다.  
 `spec.updateStrategy.type` 으로 지정가능하고, 유효한 type에는 `OnDelete`, `RollingUpdate` 가 있다. 
-**OnDelete** 는 배포 템플릿을 변경 적용해도 기존 배포된것은 건드리지 않고 진행되는 방식을 말하고, **RollingUpdate** 는 각 노드별 배포 노드가 무조건 1개이기때문에 Deployment와는 달리 maxSurge(최대 파드 수)를 지정할 수 없고 maxUnavailable(동시 정지 가능 최대 파드 수)를 지정해 n개씩 동시에 업데이트해 나가는 형태로 업데이트가 이루어진다. 여기서 n개씩 동시 업데이트라고 한다면 n개의 노드를 말하는셈이다.  
+**OnDelete** 는 배포 템플릿을 변경 적용해도 기존 배포된것은 건드리지 않고 진행되는 방식을 말하고, **RollingUpdate** 는 각 노드별 배포 노드가 무조건 1개이기때문에 Deployment와는 달리 maxSurge(최대 파드 수)를 지정할 수 없고 maxUnavailable(동시 정지 가능 최대 파드 수)를 지정해 n개씩 동시에 업데이트해 나가는 형태로 업데이트가 이루어진다.  
+(여기서 n개씩 동시 업데이트라고 하는것은 n개의 노드를 말하는 것이다.)  
 
 ## 5. StatefulSet
-**StatefulSet** 은 디스크, 네트워크 아이덴티티 등 **상태를 유지해야하는 애플리케이션**을 위해 설계되었다.  
-문법은 ReplicaSet 과 동일하고 마찬가지로 `kind` 만 StatefulSet 
+**StatefulSet** 은 디스크, 네트워크 아이덴티티 처럼 **상태를 유지해야하는 애플리케이션**을 위해 설계되었다. 
+문법은 ReplicaSet 과 동일하고 마찬가지로 `kind` 만 StatefulSet 으로 치환해서 작성하면 된다.  
 
 ### 5-1. 활용 사례
 
@@ -320,10 +321,10 @@ db-0   1/1     Running             0          1s    # <-- 0번 db 교체
 ```
 
 하지만 이 순서를 없앨수도 있다.  
-`.spec.podManagementPolicy` 를 `Parallel`로 설정함으로써 순서를 없앨 수도 있다.  
 순서가 있는 기본옵션(`OrderedReady`)은 동시에 1개의 Pod 를 업데이트하는 방식이기 때문에 업데이트 속도가 느리다. 
 개발이나 테스트환경같이 배포가 수시로 빨리 이루어져야하는 경우나 데이터 일관성이 상관없는 경우에는 이러한 순서가 필요없다. 
 그렇기 때문에 순서를 없애서 배포하기도 한다.  
+`.spec.podManagementPolicy` 를 `Parallel`로 설정함으로써 순서를 없앨 수 있다.  
 
 ### 5-3. 매니페스트 업데이트
 Kubernetes에서 **StatefulSet**의 컨테이너 스펙 수정은 문제가 안되지만, `name` 필드를 수정하고 해당 변경 사항을 기존 **StatefulSet**에 적용하려 한다면, 이는 단순히 `kubectl apply`로는 해결되지 않는다. **StatefulSet**의 `name`을 변경하는 것은 단순한 **수정 이상의 의미**를 가지기 때문이다.
@@ -337,6 +338,8 @@ Kubernetes에서 **StatefulSet**의 컨테이너 스펙 수정은 문제가 안�
 
 **Job** 과 ReplicaSet 의 차이점은 **"기동중인 파드가 정지되는것을 전제로 만들어졌는가이다."**  
 ReplicaSet에서 Pod의 정지는 예상치 못한 에러이다. 반면, **Job에서는 Pod의 정지는 정상 동작이다.**
+
+### 6-1. restartPolicy
 ```yaml
 apiVersion: batch/v1
 kind: Job
@@ -359,4 +362,18 @@ NAME   STATUS     COMPLETIONS   DURATION   AGE
 test   Complete   1/1           6s         2m37s
 ```
 
-### 잡 구성 패턴
+### 6-2. 병렬성
+`completions`, `parallism`, `backoffLimit` 으로 생성 파드 갯수를 조절할 수 있다.  
+
+
+### 6-3. 잡 구성 패턴
+Job을 통해 생성된 각 Pod들은 서로 통신하지 않는다. 각자 맡은일을 수행하고 종료되는것이 보장되어있는 리소스이다.  
+Job은 보통 메일을 보내거나 파일을 변환하는등 분산작업을 위해 사용한다.  
+
+### 6-4. 크론잡
+> {{< katex >}}
+\\(Pod \subset ReplicaSet \subset Deployment\\) 였듯이, 
+\\(Pod \subset Job \subset CronJob\\) 관계이다.  
+
+**CronJob** 이 Job을 관리하고 Job이 파드를 관리하는 관계이다.  
+**CronJob** 은 스케줄링된 시간에 Job을 생성해야할 때 사용한다.  
