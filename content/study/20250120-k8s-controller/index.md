@@ -1,7 +1,7 @@
 ---
 title: "Controller"
 date: 2025-01-20T12:02:20+09:00
-draft: true
+draft: false
 categories: [study]
 tags: [k8s, concepts]
 description: ""
@@ -371,9 +371,12 @@ Job을 통해 생성된 각 Pod들은 서로 통신하지 않는다. 각자 맡�
 Job은 보통 메일을 보내거나 파일을 변환하는등 분산작업을 위해 사용한다.  
 
 ### 6-4. 크론잡
-> {{< katex >}}
-\\(Pod \subset ReplicaSet \subset Deployment\\) 였듯이, 
-\\(Pod \subset Job \subset CronJob\\) 관계이다.  
+{{< katex >}}
+\\(\text{Pod} \subset \text{ReplicaSet} \subset \text{Deployment} \\)  
+\\(\text{Pod} \subset \text{Job} \subset \text{CronJob}\\)  
 
 **CronJob** 이 Job을 관리하고 Job이 파드를 관리하는 관계이다.  
 **CronJob** 은 스케줄링된 시간에 Job을 생성해야할 때 사용한다.  
+
+`.spec.startingDeadlineSeconds` 필드는 예약된 시간에 크론잡이 실행되지 못했을 때 해당 필드값으로 설정한 시간이 지나면 크론잡이 실행되지 않도록 처리한다. 간단히 타임아웃이라고 보면된다. 만약 이 필드값을 지정하지 않았다면 실행시간이 지나더라도 잡이 실행된다.  
+`.spec.concurrencyPolicy` 필드는 잡의 동시성을 관리한다.  
