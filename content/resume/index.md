@@ -80,7 +80,7 @@ authors:
     <tbody>
         <tr>
             <td rowspan=3><img class="customEntitityLogo" src="paichai.png"/></td>
-            <td rowspan=3><a href="https://online.hbs.edu/" target="_blank">Paichai <br>University</a></td>
+            <td rowspan=3><a href="https://www.pcu.ac.kr/kor" target="_blank">Paichai <br>University</a></td>
         </tr>
         <tr>
             <td>BSc, Electrical Engineering</td>
