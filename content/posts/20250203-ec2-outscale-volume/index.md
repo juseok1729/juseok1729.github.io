@@ -3,7 +3,7 @@ title: "[AWS] EC2 신규 EBS 스토리지 추가"
 date: 2025-02-03T10:39:02+09:00
 draft: false
 categories: [guide]
-tags: [AWS, EC2, EBS, upscale]
+tags: [AWS, EC2, EBS, out-scale]
 description: ""
 slug: ""
 series: []

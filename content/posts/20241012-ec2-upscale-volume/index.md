@@ -3,7 +3,7 @@ title: "[AWS] EC2 기존 EBS 스토리지 증설하기"
 date: 2024-10-12T10:54:52+09:00
 draft: false
 categories: [guide]
-tags: [AWS, EC2, EBS, upscale]
+tags: [AWS, EC2, EBS, up-scale]
 description: ""
 slug: ""
 series: []
