@@ -333,6 +333,147 @@ Kubernetes에서 **StatefulSet**의 컨테이너 스펙 수정은 문제가 안�
 
 기본적으로 Kubernetes의 **StatefulSet**은 각각의 인스턴스에 고유한 네임을 부여하며, 이는 `name` 필드의 변경을 통해 자동으로 갱신되지 않는다. 왜냐하면 **StatefulSet**의 `name`은 생성된 리소스와 직접적으로 연결되기 때문이다.  
 
+### 5-4. PVC & PV
+#### 1. 볼륨의 종류
+- **Volume** : hostPath, nfs, iSCSI, Ceph 등 매니페스트에 직접 지정하여 구성
+- **PersistentVolume** : 매니페스트에서 PV 리소스를 생성하고 외부 시스템(Public Cloud)과 연계하여 구성
+
+일반 **Volume** 은 k8s 클러스터에서 관리할 수 없다. 사람이 직접 일일이 생성해야한다. 즉, 매니페스트를 통해 새 볼륨을 생성하거나 기존 볼륨을 삭제하지 못한다.  
+반면, **PersistentVolume** 은 k8s 클러스터 자체적으로 관리할 수 있다. 매니페스트를 통해 PV 리소스를 생성하고 외부 시스템과 연계하여 구성이 가능하다.  
+
+#### 2. Volume
+다음은 볼륨 플러그인의 예시이다.  
+- hostPath : 노드상의 영역을 컨테이너에 매핑하는 플러그인
+- emptyDir : 파드용 임시 디스크 영역(ex. 캐시영역), 파드가 종료되면 같이 삭제된다. 호스트와 별개의 공간이다.  
+- NFS
+- iSCSI
+- CephFS
+
+#### 3. PersistentVolume
+**PV(영구 볼륨)** 은 파드에서 정의하는 Volume과는 달리 개별 리소스로 생성한 후 사용한다.  
+즉, 매니페스트를 통해서 **PV** 를 생성해야 한다.  
+PV는 기본적으로 네트워크를 통해 디스크를 Attach하는 디스크 타입이다.  
+- GCE Persistent Disk
+- AWS Elastic Block Store
+- Azure File
+- NFS
+- iSCSI
+- ceph(RBD, CephFS)
+- OpenStack Cinder
+- GlusterFS
+- Container Storage Interface(CSI)
+
+#### 4. PVC(PersistentVolumeClaim)
+이름 그대로 영구 볼륨 요청을 위한 리소스이다.  
+영구 볼륨(PV)은 클러스터의 볼륨리스트에 등록만 하기때문에 파드에 연결해서 사용하려면 PVC를 정의해야한다.  
+
+#### 5. 정적 프로비저닝
+정적 프로비저닝의 플로우는 아래와 같다. 아래 예시는 aws ebs 를 사용하는 예시이다.  
+정적 프로비저닝의 경우, 프로비저너로 사용할 외부시스템에 디스크를 미리 생성한 후에 적용해야한다.  
+아래 예시에서는 AWS EBS에 스토리지를 미리 생성해야한다.  
+
+1. 관리자가 볼륨을 직접 생성해서 PV에 등록한다.
+    ```yaml
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: my-ebs-pv
+    spec:
+      capacity:
+        storage: 10Gi  # EBS 볼륨 크기 (미리 생성한 볼륨과 일치해야 함)
+      accessModes:
+        - ReadWriteOnce
+      awsElasticBlockStore:
+        volumeID: vol-0123456789abcdef0  # 미리 생성한 EBS 볼륨의 ID
+        fsType: ext4
+    ```
+
+2. 개발자는 PVC를 배포하고 해당 요청 사항에 맞는 Volume을 찾아 바인딩한다.  
+    ```yaml
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: my-ebs-pvc
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi  # 요청하는 스토리지 크기 (미리 생성한 볼륨과 일치해야 함)
+    ```
+
+3. Pod에서 Volume 부분에 PVC를 넣어서 구성한다.  
+    ```yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: my-ebs-pod
+    spec:
+      containers:
+      - name: my-container
+        image: my-container-image
+        volumeMounts:
+        - mountPath: /data  # 컨테이너 내 마운트 경로
+          name: ebs-storage
+      volumes:
+      - name: ebs-storage
+        persistentVolumeClaim:
+          claimName: my-ebs-pvc  # 참조할 PVC 이름
+    ```
+관리자가 직접 PV를 프로비저닝 해야하기 때문에 번거롭다.  
+
+PVC 배포시 요청사항에 맞는 PV가 있다면, PVC는 조건에 맞는 PV 와 바인딩된다.  
+Pod는 PVC에 바인딩된 PV를 확인해 마운트한다.  
+
+#### 6. 동적 프로비저닝
+StorageClass 와 Provisioner를 사용해 자동으로 PV를 생성해서 PVC와 바인딩하는 방법이다.  
+Provisioner 에 접속할 스토리지의 연결 정보가 있다.  
+PVC가 배포되면 Provisioner 는 해당 요청사항에 맞는 볼륨을 프로비저닝해서 Pool에 넣고 해당 PV는 PVC와 storageClassName 을 통해 자동으로 바인딩된다.  
+
+1. aws ebs 를 동적 프로비저닝에 사용할 `StorageClass` 를 정의한다.  
+    ```yaml
+    apiVersion: storage.k8s.io/v1
+    kind: StorageClass
+    metadata:
+      name: standard-ebs
+    provisioner: kubernetes.io/aws-ebs
+    parameters:
+      type: gp2  # EBS 볼륨 유형 (gp2, io1 등)
+      fsType: ext4
+    reclaimPolicy: Delete  # PVC 삭제 시 EBS 볼륨도 삭제
+    ```
+2. PVC를 생성할 때 `StorageClass` 를 참조해 동적으로 PV를 프로비저닝한다.  
+    ```yaml
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: my-ebs-pvc
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: standard-ebs  # 위에서 정의한 StorageClass 이름
+    ```
+3. PVC를 사용하는 Pod 를 정의한다.  
+    ```yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: my-ebs-pod
+    spec:
+      containers:
+      - name: my-container
+        image: my-container-image
+        volumeMounts:
+        - mountPath: /data  # 컨테이너 내 마운트 경로
+          name: ebs-storage
+      volumes:
+      - name: ebs-storage
+        persistentVolumeClaim:
+          claimName: my-ebs-pvc  # 참조할 PVC 이름
+    ```
 
 ## 6. Job
 
