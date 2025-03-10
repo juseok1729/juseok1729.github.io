@@ -1,12 +1,12 @@
 ---
-title: "Kubectl"
+title: "[CKA] Kubectl"
 date: 2025-03-09T22:02:20+09:00
 draft: false
 categories: [study]
 tags: [k8s, command]
 description: ""
 slug: ""
-series: []
+series: ["cka"]
 series_order: 1
 authors:
   - P373R
