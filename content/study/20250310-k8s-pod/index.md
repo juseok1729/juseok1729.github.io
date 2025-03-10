@@ -3,7 +3,7 @@ title: "[CKA] Pod"
 date: 2025-03-10T13:01:48+09:00
 draft: true
 categories: [study]
-tags: [k8s, command]
+tags: [k8s, command, pod]
 description: ""
 slug: ""
 series: ["cka"]
@@ -255,13 +255,152 @@ EOF
 ```
 
 ## 6. 리소스 관리
+쿠버네티스는 컨테이너 실행에 필요한 리소스를 제약할 수 있는 메커니즘을 제공한다.
 
+### requests
+Pod가 보장받을 수 있는 최소 리소스 사용량이다.  
+```bash
+cat << EOF > requests.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: requests
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "500Mi"
+EOF
+```
+![requests](./assets/requests.png)
+
+{{< alert icon="circle-info" cardColor="#F5F6CE" iconColor="#1d3557" textColor="#000000" >}}
+cpu 에서 1000m 은 1core 를 뜻한다. 250m 은 0.25core 를 뜻한다.  
+250m 대신 0.25 로 선언해도 똑같이 동작한다. 하지만, 0.001 처럼 값이 작아질수록 m 으로 나타내는것이 더 직관적일 수 있다.  
+{{< /alert >}}  
+
+### limits
+Pod가 최대로 사용할 수 있는 최대 리소스 사용량이다.  
+```bash
+cat << EOF > limits.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: limits
+spec:
+  restartPolicy: Never
+  containers:
+  - name: mynginx
+    image: python:3.7
+    command: [ "python" ]
+    args: [ "-c", "arr = []\nwhile True: arr.append(range(1000))" ]
+    resources:
+      limits:
+        cpu: "500m"
+        memory: "1Gi"
+EOF
+```
+![limits](./assets/limits.png)
 
 ## 7. 상태 확인
+Pod가 정상동작중인지 확인하는 Health check 기능이 있다.  
 
+### livenessProbe
+Pod가 정상 동작하는지 확인할때 사용한다.  
+```bash
+cat << EOF > liveness.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    livenessProbe:
+      httpGet:
+        path: /live
+        port: 80
+EOF
+```
+- httpGet : 선언한 path에 내부적으로 **HTTP(GET)** 요청을 보내 2xx ~ 3xx 응답이 있는지 확인하고 범주 안의 응답코드라면 정상으로 간주, 그외 코드라면 비정상으로 간주해 컨테이너를 재시작시킨다.  
+
+위 파일을 실행하면 404 에러가 발생해 컨테이너가 끊임없이 재시작 되는것을 확인할 수 있는데, live path 가 없어서 그렇다.  
+![liveness](./assets/liveness.png)
+![404](./assets/liveness-404.png)
+live 파일을 생성해 200 응답을 반환하도록 하면 재시작 수가 증가하지 않는것을 확인할 수 있다.  
+![200](./assets/liveness-200.png)
+
+### readinessProbe
+readinessProbe 는 정상적인 Pod 에만 트래픽을 보내고 싶을때 사용한다.  
+예를들어 Pod 10개를 생성했다고 가정하자. 준비상태 Pod 5개, 생성상태 Pod 5개라면, 준비상태 Pod 5개에만 트래픽을 라우팅하게 된다.  
+```bash
+cat << EOF > readiness.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: readiness
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 80
+EOF
+```
+![readiness](./assets/readiness.png)
+![readiness-fix](./assets/readiness2.png)
+
+http 통신뿐만 아니라 커맨드 실패 여부를 통해서도 정상 여부를 확인할 수 있다.  
+```bash
+cat << EOF > readiness-cmd.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: readiness-cmd
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    readinessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/ready
+EOF
+```
+![readiness-cmd](./assets/readiness-cmd.png)
+![readiness-cmd-fix](./assets/readiness-cmd-fix.png)
 
 ## 8. 다중 컨테이너 실행
-
+```bash
+cat << EOF > multi-container.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-container
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  - name: curl
+    image: curlimages/curl
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do sleep 5; curl localhost; done"]
+EOF
+```
+{{< alert icon="circle-info" cardColor="#F5F6CE" iconColor="#1d3557" textColor="#000000" >}}
+curl 컨테이너에서 5초를 지연시킨 이유가 뭘까?  
+쿠버네티스는 Pod 내부 컨테이너끼리 실행 순서를 보장하지 않기 때문에 5초 지연시킨것이다.  
+{{< /alert >}}  
+![multi-container](./assets/multi-container.png)
+![multi-container-log](./assets/multi-container-log.png)
+`-c` 옵션은 `--container=''` 의 축약, 로그를 확인할 컨테이너를 지정한다.  
 
 ## 9. 초기화 컨테이너
 
