@@ -6,8 +6,8 @@ categories: [study]
 tags: [k8s, command, network, service]
 description: ""
 slug: ""
-series: []
-series_order: 1
+series: ["cka"]
+series_order: 3
 authors:
   - P373R
 ---
