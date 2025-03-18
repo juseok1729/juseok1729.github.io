@@ -261,7 +261,9 @@ curl $MASTER_IP:30080
 이를 통해 배포된 Pod가 있는 노드뿐만 아니라 모든 노드에서 동일한 NodePort로 원하는 서비스에 접근할 수 있다. (`externalTrafficPolicy: Cluster`의 경우)  
 
 {{< alert icon="circle-info" cardColor="#F5F6CE" iconColor="#1d3557" textColor="#000000" >}}
-kube-proxy, netfilter 설명 보충 필요
+- `netfilter` : kernel space 에서 패킷의 생명주기를 관리하는 툴
+- `iptables` : netfilter의 생명주기 룰을 쉽게 조작할 수 있게 도와주는 툴, linux에서 방화벽을 설정할 때 사용함
+- `kube-proxy` : iptables의 룰을 정의하고 iptables룰은 netfilter에도 생성되어 실제로 netfilter에 의해 특정 경로로 패킷을 전달하게 됨
 {{< /alert >}} 
 
 바깥에서 `curl <공인IP>:30080` 또는 `http://공인IP:30080`로도 접근이 되는것을 확인할 수 있다.  
@@ -271,7 +273,7 @@ kube-proxy, netfilter 설명 보충 필요
 NodePort 로도 외부트래픽을 클러스터 내부로 잘 전달할수 있다는것을 확인했다.  
 근데 왜 **LoadBalancer**를 사용할까? 아래 두가지 이유 때문이다.  
 1. 보안적 측면  
-  : 노드 포트 대역(30000-32767)을 직접 외부에 노출하지않고 LoadBalancer 를 외부 네트워크에 두고 _**well-known**_ 포트로 엔드포인트를 제공해 네트워크 보안을 지킬 수 있다.  
+  : 노드 포트 대역(30000-32767)을 직접 외부에 노출하지않고 **LoadBalancer**를 외부 네트워크에 두고 _**well-known**_ 포트로 엔드포인트를 제공해 네트워크 보안을 지킬 수 있다.  
 2. 안정적인 접근
   : LoadBalancer를 앞단에 두면 사용자가 각각의 서버 IP를 직접 알 필요 없이 LoadBalancer의 IP만으로 요청을 보낼 수 있기에 편리하다.  
 
@@ -432,12 +434,22 @@ spec:
 `NodePort`, `LoadBalancer` 는 **외부연결 가능**이라서 Traffic이 클러스터 그룹 바깥에 있고,  
 `ExternalName`은 네트워크 확장의 개념으로 사용되기 때문에 **화살표의 방향이 바깥**으로 나가게끔 그려져있는것을 확인할 수 있다.  
 ![service-type](./assets/bbg-k8s-service-type.webp "출처 : bytebytego")
-- **ClusterIP** : Service의 기본값, 클러스터 내부 IP 주소가 할당된다. 클러스터 내에서만 연결성 보장
-- **NodePor**t : ClusterIP 위에 클러스터에 대한 포트를 추가해 클러스터 외부에 서비스를 노출시킨다. NodeIP:NodePort 로 요청이 가능함
-- **LoadBalance**r : CSP(AWS, Azure, GCP, OCI 등등)의 LB를 사용해 서비스를 외부에 노출시킨다.  
-- **ExternalName** : 도메인네임에 매핑한다. 외부 데이터베이스를 노출하기 위해 사용한다. 
-
-----
+- **ClusterIP** : Service의 기본값, 클러스터 내부 IP 주소가 할당된다. **클러스터 내에서만 연결성 보장**
+- **NodePor**t : ClusterIP 위에 클러스터에 대한 포트를 추가해 클러스터 **외부에 서비스를 노출**시킨다. `NodeIP:NodePort`로 요청이 가능함
+- **LoadBalance**r : CSP(AWS, Azure, GCP 등등)의 LB를 사용해 **서비스를 외부에 노출**시킨다.  
+- **ExternalName** : 도메인네임에 매핑한다. **외부 DNS와 연결**하기위해 사용한다. 
 
 ## 3. 네트워크 모델
+### 3-1. 쿠버네티스의 네트워크 모델 특징
+- 각 Node간 NAT 없이 통신이 가능해야 한다.
+- 각 Pod간 NAT 없이 통신이 가능해야 한다.
+- Node와 Pod간 NAT 없이 통신이 가능해야 한다.
+- 각 Pod는 고유의 IP를 부여받는다.
+- 각 Pod IP 네트워크 제공자를 통해 할당받는다.
+- Pod IP는 클러스터 내부 어디서든 접근이 가능해야 한다.
 
+### 3-2. 쿠버네티스의 네트워크 모델 장점
+- 모든 리소스(Node, Pod)가 다른 모든 리소스(Node, Pod, Service)를 고유한 IP로 접근할 수 있다.
+- NAT 통신으로 인한 부작용에 대해 신경 쓸 필요가 없다.
+- 새로운 프로토콜을 재정의할 필요 없이 기존의 TCP, UDP, IP 프로토콜을 그대로 이용할 수 있다.
+- Pod간 네트워킹이 어느 노드에서든지 동일하게 동작한다(호스트 서버와의 종속성이 없어 결과적으로 이식성 향상).
