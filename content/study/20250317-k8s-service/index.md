@@ -63,7 +63,7 @@ k exec client -- curl <Pod-IP>
 
 k exec client -- curl <Service-IP>
 ```
-![curl-svc-pod](./assets/curl-pod.png)
+![curl-svc-pod](./assets/curl-svc-pod.png)
 
 ```bash
 k exec client -- curl <Service-Domain-Name(label):Service-Port>
