@@ -1,7 +1,7 @@
 ---
 title: "[CKA] Service"
 date: 2025-03-17T09:50:38+09:00
-draft: true
+draft: false
 categories: [study]
 tags: [k8s, command, network, service]
 description: ""
