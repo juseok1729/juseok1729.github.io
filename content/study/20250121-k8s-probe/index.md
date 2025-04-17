@@ -6,8 +6,8 @@ categories: [study]
 tags: [k8s, object]
 description: ""
 slug: ""
-series: [k8s]
-series_order: 1
+series: [kubernetes]
+series_order: 6
 authors:
   - P373R
 ---
