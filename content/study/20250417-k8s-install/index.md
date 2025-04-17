@@ -317,6 +317,61 @@ watch kubectl -n kube-system get pods -l k8s-app=cilium
 CNI(Cilium)이 설치 된 후 노드를 확인해보면 Status 가 처음 노드를 연결했을때, Not Ready 에서 Ready 로 변경된것을 확인할 수 있다.  
 ![cni-status](./assets/cni-status.png)
 
+
+## 5. 부록
+위 과정까지는 클러스터에 명령을 내리려면 마스터 노드(VM)에 직접 접근이 필요했다.  
+하지만, 바깥에서도 해당 VM k8s 클러스터에 접근할 수 있다.  
+이에 대해 설명하겠다.  
+
+먼저, 마스터 노드에 있는 클러스터 설정파일을 호스트에 복사한다.  
+```bash
+# 마스터 노드 쉘에 접속, 난 위에서 k8s-master 로 했었다.  
+multipass shell <your-master-node-name>
+
+# 설정 파일에 접근 권한 부여
+sudo chmod 644 /etc/kubernetes/admin.conf
+
+# 파일을 호스트로 복사 (multipass 사용 시)
+exit  # 마스터 노드에서 로그아웃
+
+# VM 바깥, 호스트에서 실행
+multipass copy-files <your-master-node-name>:/etc/kubernetes/admin.conf ~/Downloads/kube-config.yaml
+```
+
+호스트에는 `kubectl`만 설치되어있으면 된다. 아래는 OS별 `kubectl` 설치 방법이다.  
+```bash
+# Linux의 경우
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+
+# macOS의 경우
+brew install kubectl
+
+# Windows의 경우
+choco install kubernetes-cli
+# 또는
+winget install kubectl
+```
+
+마스터 노드에서 꺼내온 클러스터 설정을 아래 경로에 복사한다.  
+```bash
+# ~/.kube 디렉토리가 없으면 생성
+mkdir -p ~/.kube
+
+# 기존 config 파일이 있으면 백업
+[ -f ~/.kube/config ] && cp ~/.kube/config ~/.kube/config.bak
+
+# 수정한 설정 파일을 복사
+cp ~/Downloads/kube-config.yaml ~/.kube/config
+
+# 파일 권한 설정
+sudo chmod 600 ~/.kube/config
+```
+그럼 아래와 같이 VM 마스터 노드 바깥 환경, 호스트에서도 클러스터에 접근이 가능하다!  
+(VM의 `k8s-master`가 아닌 호스트 `jsoh@gpu-server` 인것을 확인할 수 있다.!)
+![host-kubectl](./assets/host.png)
+
 ---
 ## 참고
 - cilium 설치 실습 : https://themapisto.tistory.com/278
