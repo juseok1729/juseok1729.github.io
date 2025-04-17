@@ -199,10 +199,12 @@ net.ipv4.ip_forward = 1
 EOF
 
 sudo sysctl --system
+}
 ```
 
 이부분이 다른점인데, 마스터 노드를 초기화했을때 마지막 부분에 토큰과 함께 출력된 명령문이 있을거다.  그걸 입력하면 된다. (sudo 권한으로)
 ```bash
+{
 sudo kubeadm join 10.118.242.88:6443 --token rhkcud.16n5hb4hog8x1dbz --discovery-token-ca-cert-hash sha256:ce3df5fda5a7e953649d9a3a1f053b29471506bc75b124247643feb3273b30ba
 }
 ```
