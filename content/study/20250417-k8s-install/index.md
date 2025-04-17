@@ -78,11 +78,22 @@ sudo systemctl enable containerd
 
 ## 3. 쿠버네티스 설치
 ### 3-1. 사전 요구사항(swap 메모리 비활성화)
+VM을 생성하면 보통 비활성화 되어있는데, 혹시 모르니 확실히 해두는것이다.  
+swap 메모리를 비활성화 하는 이유는 아래와 같다.  
+- **QoS(Quality of Service) 보장** : 쿠버네티스는 파드(Pod)의 우선순위와 리소스 할당에 따라 QoS 클래스를 지정한다. Swap이 활성화되면 이러한 QoS 정책이 제대로 작동하지 않고, 우선순위가 낮은 워크로드가 스왑을 사용하여 계속 실행될 수 있다.
+- **OOM(Out Of Memory) 관리** : 쿠버네티스는 노드의 메모리 압박 상황에서 OOM Killer를 통해 우선순위가 낮은 컨테이너를 종료하도록 설계되어있다. Swap이 있으면 이 메커니즘이 지연되거나 예상대로 작동하지 않을 수 있다.  
+
+그외 쿠버네티스 스케줄러 설계, 성능 일관성, 예측 가능한 성능 보장을 위해서 swap 메모리 비활성화가 필요하다.  
 ```bash
 {
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 }
+```
+
+swap 메모리가 비활성화 되었는지 확인하는 방법이다.  
+```bash
+sudo systemctl list-unit-files --type swap
 ```
 
 ### 3-2. 데비안 기반 배포버전 (kubernetes v1.32)
