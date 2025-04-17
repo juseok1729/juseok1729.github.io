@@ -204,9 +204,7 @@ sudo sysctl --system
 
 이부분이 다른점인데, 마스터 노드를 초기화했을때 마지막 부분에 토큰과 함께 출력된 명령문이 있을거다.  그걸 입력하면 된다. (sudo 권한으로)
 ```bash
-{
 sudo kubeadm join 10.118.242.88:6443 --token rhkcud.16n5hb4hog8x1dbz --discovery-token-ca-cert-hash sha256:ce3df5fda5a7e953649d9a3a1f053b29471506bc75b124247643feb3273b30ba
-}
 ```
 
 각 마스터에 해당 과정을 모두 수행한 뒤 마스터 노드에 접근해서 확인해보면 아래와 같이 노드가 클러스터에 연결된것을 확인 할 수 있다.  
@@ -237,6 +235,12 @@ rm -rf linux-amd64 helm-v3.17.0-linux-amd64.tar.gz
 ```
 
 ### 4-2. cilium 설치
+```bash
+{
+helm repo add cilium https://helm.cilium.io/
+helm repo update
+}
+```
 ```bash
 helm install cilium cilium/cilium --version 1.17.3 --namespace kube-system \
 --set k8sServiceHost=10.118.242.88 \
