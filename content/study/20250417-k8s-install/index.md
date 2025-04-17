@@ -152,6 +152,7 @@ sudo kubeadm init --pod-network-cidr=10.0.0.0/16 \
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
+echo "alias k='kubectl'" >> ~/.bashrc && source ~/.bashrc
 }
 ```
 
@@ -367,6 +368,9 @@ cp ~/Downloads/kube-config.yaml ~/.kube/config
 
 # 파일 권한 설정
 sudo chmod 600 ~/.kube/config
+
+# kubectl 축약어 등록
+echo "alias k='kubectl'" >> ~/.bashrc && source ~/.bashrc
 ```
 그럼 아래와 같이 VM 마스터 노드 바깥 환경, 호스트에서도 클러스터에 접근이 가능하다!  
 (VM의 `k8s-master`가 아닌 호스트 `jsoh@gpu-server` 인것을 확인할 수 있다.!)
