@@ -267,12 +267,12 @@ helm install cilium cilium/cilium --version 1.17.3 --namespace kube-system \
 --set operator.replicas=1
 ```
 
-#### 기본 연결 설정
+**기본 연결 설정**
 
 - `-set k8sServiceHost=10.118.242.88` - 쿠버네티스 API 서버 IP 주소
 - `-set k8sServicePort=6443` - 쿠버네티스 API 서버 포트
 
-#### 성능 및 라우팅 최적화
+**성능 및 라우팅 최적화**
 
 - `-set routingMode=native` - 네이티브 라우팅 모드 사용
 - `-set autoDirectNodeRoutes=true` - 노드 간 직접 라우팅 자동 설정
@@ -282,13 +282,13 @@ helm install cilium cilium/cilium --version 1.17.3 --namespace kube-system \
 - `-set kubeProxyReplacement=true` - kube-proxy 대체
 - `-set installNoConntrackIptablesRules=true` - 커넥션 트래킹 없는 iptables 규칙 설치
 
-#### IP 주소 관리(IPAM)
+**IP 주소 관리(IPAM)**
 
 - `-set ipam.mode=kubernetes` - 쿠버네티스 기본 IPAM 사용
 - `-set k8s.requireIPv4PodCIDR=true` - 포드에 IPv4 CIDR 필요
 - `-set ipv4NativeRoutingCIDR=10.118.0.0/16` - 네이티브 라우팅용 IPv4 CIDR 범위
 
-#### 모니터링 및 관측성(Hubble)
+**모니터링 및 관측성(Hubble)**
 
 - `-set hubble.ui.enabled=true` - Hubble UI 활성화
 - `-set hubble.relay.enabled=true` - Hubble Relay 활성화
@@ -296,12 +296,12 @@ helm install cilium cilium/cilium --version 1.17.3 --namespace kube-system \
 - `-set hubble.metrics.enabled="{...}"` - 특정 메트릭 유형 지정
     - DNS, 드롭된 패킷, TCP, 플로우, 포트 분포, ICMP, HTTP 메트릭 수집
 
-#### Prometheus 통합
+**Prometheus 통합**
 
 - `-set prometheus.enabled=true` - Prometheus 통합 활성화
 - `-set operator.prometheus.enabled=true` - 오퍼레이터 Prometheus 메트릭 활성화
 
-#### 배포 및 운영 관련
+**배포 및 운영 관련**
 
 - `-set rollOutCiliumPods=true` - 설치 후 Cilium 포드 자동 재시작
 - `-set operator.replicas=1` - Cilium 오퍼레이터 복제본 수
