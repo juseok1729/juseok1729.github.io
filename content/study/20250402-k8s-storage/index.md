@@ -186,8 +186,26 @@ StorageClass를 사용하는 이유는 다음과 같다.
 - PV를 StorageClass가 대신 특정 디렉터리 위치 아래로만 만들어주기 때문에 일반 사용자가 로컬 호스트 서버의 아무 위치나 디렉터리를 사용하지 못하게 제한할 수 있다.  
 - local-path와 같이 간단하게 PV를 설정하는 경우는 별 차이가 없겠지만 NFS의 경우 PV를 생성하기 위해 복잡한 인프라 정보를 StorageClass에 요청만 하면 나머지는 알아서 StorageClass가 PV를 만들어주고 PVC에 연결해 준다.  
 
-### 3-2. NFS StorageClass 설정
+<div style="background-color:white; padding: 5px">
+{{< mermaid >}}
+flowchart LR
+    n5["Pod"] -->|1| n1["storageClassName<br>: nfs"]
+    n1 -->|2| n3["Persistent<br>Volume"]
+    n3 -->|4| n4[(Volume)]
+    n1 -->|5| n2["NFS Storage Class"]
+{{< /mermaid >}}
+</div>
 
+
+### 3-2. NFS StorageClass 설정
+```bash
+h install nfs stable/nfs-server-provisioner \
+  --set persistence.enable=true \
+  --set persistence.size=10Gi \
+  --version 1.1.1 \
+  --namespace ctrl
+```
+![nfs](./assets/nfs.png)
 
 ## 4. 활용
 ### 4-1. MinIO 설계

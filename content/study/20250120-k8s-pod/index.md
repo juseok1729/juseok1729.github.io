@@ -85,7 +85,7 @@ kind: Pod
 metadata:
   name: counter
   labels:
-    app: counter
+    app: sample-pod
 spec:
   containers:
     - name: app
