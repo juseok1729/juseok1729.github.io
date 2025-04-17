@@ -7,7 +7,7 @@ tags: [k8s, object]
 description: ""
 slug: ""
 series: [kubernetes]
-series_order: 6
+series_order: 7
 authors:
   - P373R
 ---
