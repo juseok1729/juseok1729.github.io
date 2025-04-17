@@ -43,7 +43,7 @@ spec:
           - name: redis
             image: redis
             ports:
-              - containerPort: 6379
+              - containerPort: 6379   # 컨테이너 포트
                 protocol: TCP
 ---
 apiVersion: v1
@@ -123,7 +123,7 @@ spec:
           - name: redis
             image: redis
             ports:
-              - containerPort: 6379
+              - containerPort: 6379   # 컨테이너 포트
                 protocol: TCP
 ---
 apiVersion: v1
@@ -134,9 +134,9 @@ spec:
   type: NodePort    # type 이 없으면 기본값 ClusterIP로 동작한다.
   ports:
   # - targetPort: 6379
-    - port: 6379
+    - port: 6379            # 서비스 포트
       protocol: TCP
-      nodePort: 30001
+      nodePort: 30001       # 노드 포트
   selector:
     app: counter
     tier: db
@@ -145,15 +145,40 @@ spec:
 
 ## 3. LoadBalancer
 
-ReplicaSet 이 단독으로 배포되지않고 Deployment 로 감싸 배포하듯이, 보통 NodePort 타입 단독으로 배포하지 않는다. 보통 LB 가 붙어있는 형태로 배포한다.  
-이유는 NodePort 는 살아있을수도 있고 죽어있을 수도 있기때문이다.  
+ReplicaSet 이 단독으로 배포되지않고 Deployment 로 감싸 배포하는것 처럼,  
+NodePort 타입 단독으로 배포하지 않고 LB 를 붙여 배포한다.  
 
-반면에 LB는 그렇지 않다. 항상 NodePort 를 바라보고 있고 죽어있는 상태가 없고 항상 존재한다. 때문에 LB를 붙여서 배포한다.  
+LoadBalancer(LB)로 감싸는 이유는 NodePort는 살아있을수도 있고 죽어있을수도 있는, **상태가 있는 리소스** 이기 때문이다.  
+NodePort나 ExternalIP 같은 경우 결국 하나의 쿠버네티스 노드에 할당된 IP로 통신하기 때문에 해당 노드가 단일 장애지점(SPOF)이 될수있고 노드에 문제가 발생해서 접속이 불가능한 상황이 되면 먹통이 되어버리기 때문에 NodePort 앞단에 LB를 둠으로써 장애가 발생한 노드는 목적지에서 제외시키고 정상적인 노드로 트래픽을 보내 서비스 지속성을 확보할 수 있게 하기 위함이다.  
 
-하지만 치명적 단점이 있는데, LB는 하나의 서비스에만 연결될 수 있다.  
+> 주의사항
+> LB는 하나의 서비스에만 연결될 수 있다.  
+하지만 치명적 단점이 있는데, 
 LB1 - app1 / LB2 - app2 이런식으로 말이다.  
+LB1 - app1, app2, app3 이런식의 연결은 불가능하다.
 
-LB1 - app1, app2, app3 이런식의 연결은 불가능하다. 매번 서비스 배포시 LB를 달아줘야하는 번거로움이 존재하는데 이것을 이보다 더 상위개념인 **Ingress** 라는 서비스로 해결 가능하다.  
+> < 요청 흐름 >  
+> ***LoadBalancer** → **NodePort** → **Service** → **Pod(targetPort)***
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 30000         # 외부 lb 포트
+      targetPort: 3000    # 파드(컨테이너) 포트
+      protocol: TCP
+  selector:
+    app: sample
+    tier: app
+```
+
+**LoadBalancer**는 모든 노드를 바라보고 각 노드의 상태를 감지하고 정상 노드로 라우팅한다.  
+
+매번 서비스 배포시 LB를 달아줘야하는 번거로움이 존재하는데 이것을 이보다 더 상위개념인 **Ingress** 라는 서비스로 해결 가능하다.  
 
 > Ingress 로 서비스를 라우팅할 수 있다. ⇒ Ingress 하나로 관리가 가능하다.  
 
@@ -206,5 +231,36 @@ k get svc
 ```
 
 ## 5. Headless
+로드밸런싱이 필요없거나 단일 서비스 IP 가 필요 없을때 사용한다.  
+`.spec.selector` 를 설정하면 엔드포인트와 DNS A 레코드가 생성된다.  
+`spec.selector` 를 설정하지 않으면 엔드포인트가 만들어지지않고 DNS ExternalName 타입의 CNAME 레코드가 생성된다.  
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: headless-service
+spec:
+  type: ClusterIP
+  clusterIP: None     # 이런 경우를 Headless service라고 한다.
+  selector:
+    app: nginx-for-svc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+```
+
 ## 6. ExteranlName
+외부 **도메인**을 연결할때 사용한다.  
+외부연결용이기 때문에 ClusterIP는 none 이다.  
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: extn-svc
+spec:
+  type: ExternalName
+  externalName: p373r.net   # 연결할 외부 도메인(CNAME)
+```
+
 ## 7. None-Selector
