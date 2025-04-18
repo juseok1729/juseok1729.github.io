@@ -22,6 +22,11 @@ authors:
 
 VM을 multipass라는 도구를 활용해 띄워봤다.  
 multipass는 우분투를 만든회사 Canonical에서 제공하는 VM 환경 구성을 돕는 도구이고 명령어 딸깍에 손쉽게 VM 생성이 가능하다.  
+
+```bash
+# multipass 설치
+sudo snap install multipass
+```
 ```bash
 {
 # 마스터 노드
