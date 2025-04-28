@@ -6,7 +6,7 @@ categories: [guide]
 tags: [teleport, self-hosted]
 description: ""
 slug: ""
-series: [telport]
+series: [teleport]
 series_order: 1
 authors:
   - P373R
