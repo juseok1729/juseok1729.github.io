@@ -1,12 +1,12 @@
 ---
-title: "Teleport 서버 구성하기"
+title: "Self hosted Teleport 서버 구성하기"
 date: 2025-04-23T14:30:19+09:00
-draft: true
-categories: [cat1, cat2]
-tags: [tag1, tag2]
+draft: false
+categories: [guide]
+tags: [teleport, self-hosted]
 description: ""
 slug: ""
-series: []
+series: [telport]
 series_order: 1
 authors:
   - P373R
@@ -59,7 +59,7 @@ OTP 설정페이지로 이동되는데, 본인 스마트폰의 구글 Authentica
 그러니, OTP 앱 관리가 중요하다.  
 ![login-page](./assets/login.png)
 
-#### roles
+#### 권한
 계정을 생성할때 부여할 수 있는 권한의 종류는 아래와 같다.  
 - `access` : 기본적인 SSH 접속 및 세션 관리 권한
 - `editor` : 리소스 관리 및 구성 변경 권한
@@ -78,7 +78,7 @@ OTP 설정페이지로 이동되는데, 본인 스마트폰의 구글 Authentica
 이를 통해 특정 노드에만 접근 가능하거나, 특정 시간에만 접속 가능하게 하는 등 조직의 요구사항에 맞는 사용자 지정 권한을 설정할 수 있다.  
 사용자 지정 역할은 YAML 파일을 통해 정의하고 `tctl create -f role.yaml` 명령으로 생성할 수 있다.  
 
-#### use-case
+#### 유즈 케이스
 사용자 지정 역할을 통한 세분화된 권한 제어가 필요없다면,  
 - 일반 관리자 : `editor`, `access`
   ```bash
